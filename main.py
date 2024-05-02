@@ -5,13 +5,17 @@ import tkinter
 import tkinter.messagebox
 from PIL import Image
 # math libs
+import time
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg  # plotting a graph into a frame
+# from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg  # plotting a graph into a frame
 
 
 # usb / bluetooth controller libs
 
+# global variables
+global start
+start = time.time()
 class App(customtkinter.CTk):
     def __init__(self):
         super().__init__()
@@ -70,28 +74,40 @@ class App(customtkinter.CTk):
         self.home_frame_large_image_label = customtkinter.CTkLabel(self.home_frame, text="", image=self.large_test_image)
         self.home_frame_large_image_label.grid(row=0, column=0, padx=20, pady=10)
 
-        self.home_frame_button_1 = customtkinter.CTkButton(self.home_frame, text="", image=self.image_icon_image)
+        self.home_frame_button_1 = customtkinter.CTkButton(self.home_frame, text="Button 1", image=self.image_icon_image)
         self.home_frame_button_1.grid(row=1, column=0, padx=20, pady=10)
-        self.home_frame_button_2 = customtkinter.CTkButton(self.home_frame, text="CTkButton", image=self.image_icon_image, compound="right")
-        self.home_frame_button_2.grid(row=2, column=0, padx=20, pady=10)455
-        self.home_frame_button_3 = customtkinter.CTkButton(self.home_frame, text="CTkButton", image=self.image_icon_image, compound="top")
+        self.home_frame_button_1.place(relx=0.3, rely=0.4, anchor=tkinter.E)
+        self.home_frame_button_2 = customtkinter.CTkButton(self.home_frame, text="Button 2", image=self.image_icon_image, compound="right")
+        self.home_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
+        self.home_frame_button_2.place(relx=0.3, rely=0.465, anchor=tkinter.E)
+        self.home_frame_button_3 = customtkinter.CTkButton(self.home_frame, text="Button 3", image=self.image_icon_image, compound="top")
         self.home_frame_button_3.grid(row=3, column=0, padx=20, pady=10)
-        self.home_frame_button_4 = customtkinter.CTkButton(self.home_frame, text="CTkButton", image=self.image_icon_image, compound="bottom", anchor="w")
+        self.home_frame_button_3.place(relx=0.3, rely=0.555, anchor=tkinter.E)
+        self.home_frame_button_4 = customtkinter.CTkButton(self.home_frame, text="Button 4", image=self.image_icon_image, compound="bottom")
         self.home_frame_button_4.grid(row=4, column=0, padx=20, pady=10)
+        self.home_frame_button_4.place(relx=0.3, rely=0.67, anchor=tkinter.E)
 
-        # create second frame
+        # create second frame (DATA TAB)
         self.second_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
         self.second_frame.grid_columnconfigure(0, weight=1)
+        # self.textbox = customtkinter.CTkTextbox(self.second_frame, width=250)
         self.textbox = customtkinter.CTkTextbox(self.second_frame, width=250)
-        #self.textbox = customtkinter.CTkTextbox(self.second_frame, width=250)
         self.label_tab_2 = customtkinter.CTkLabel(self.second_frame, text="CTkLabel on Tab 2")
         self.label_tab_2.grid(row=1, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
         self.textbox.grid(row=0, column=1, padx=(20, 0), pady=(20, 0), sticky="nsew")
-        #self.textbox.insert("0.0", "CTkTextbox\n\n" + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n" * 20)
 
+        # self.textbox.insert("0.0", "CTkTextbox\n\n" + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n" * 20)
+            # graphing
+        self.second_frame_graph_button = customtkinter.CTkButton(self.second_frame, text="Graph Current Data",
+                                                                 command=self.graph, image=self.image_icon_image,
+                                                                 compound="top")
+        self.second_frame_graph_button.place(relx=0.3, rely=0.1, anchor=tkinter.E)
+        self.second_frame_display_text_button = customtkinter.CTkButton(self.second_frame, text="Post Current Polling Rate",
+                                                                 command=self.updateBox, image=self.image_icon_image,
+                                                                 compound="top")
+        self.second_frame_display_text_button.place(relx=0.3, rely=0.225, anchor=tkinter.E)
         # create third frame
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
-
         # select default frame
         self.select_frame_by_name("home")
 
@@ -127,7 +143,21 @@ class App(customtkinter.CTk):
     def change_appearance_mode_event(self, new_appearance_mode):
         customtkinter.set_appearance_mode(new_appearance_mode)
 
+    def graph(self):
+        data = None  # set up from config
+        if not data:
+            data = np.arange(0, 3, .01)  # x-values for sine curve between 0 and 3w
+            plt.plot(data, 2 * np.sin(2 * np.pi * data))
+            plt.show()
+        else:
+            for point in data: # assuming data is a pair of points in a csv
+                plt.plot(point[0], point[1])
+            plt.show()
+        print("Updates Box")
 
+    def updateBox(self):
+        self.textbox.insert("0.0", text=str(time.time()-start) + " ")
+        print("Updates Box")
 if __name__ == "__main__":
     app = App()
     app.mainloop()
