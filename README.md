@@ -1,2 +1,2 @@
 # FosterController
- Current and Voltage Reader Software with User Interface
+ Current and Voltage Controller Software with Graphic User Interface
