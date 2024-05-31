@@ -67,22 +67,25 @@ class App(customtkinter.CTk):
                                                                 command=self.change_appearance_mode_event)
         self.appearance_mode_menu.grid(row=6, column=0, padx=20, pady=20, sticky="s")
 
-        # create home frame
+        # create home frame (Set Up - check for components)
         self.home_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
         self.home_frame.grid_columnconfigure(0, weight=1)
 
         self.home_frame_large_image_label = customtkinter.CTkLabel(self.home_frame, text="", image=self.large_test_image)
         self.home_frame_large_image_label.grid(row=0, column=0, padx=20, pady=10)
-
+        # Button 1 (Usage Undefined)
         self.home_frame_button_1 = customtkinter.CTkButton(self.home_frame, text="Button 1", image=self.image_icon_image)
         self.home_frame_button_1.grid(row=1, column=0, padx=20, pady=10)
         self.home_frame_button_1.place(relx=0.3, rely=0.4, anchor=tkinter.E)
+        # Button 2 (Usage Undefined)
         self.home_frame_button_2 = customtkinter.CTkButton(self.home_frame, text="Button 2", image=self.image_icon_image, compound="right")
         self.home_frame_button_2.grid(row=2, column=0, padx=20, pady=10)
         self.home_frame_button_2.place(relx=0.3, rely=0.465, anchor=tkinter.E)
+        # Button 3 (Usage Undefined)
         self.home_frame_button_3 = customtkinter.CTkButton(self.home_frame, text="Button 3", image=self.image_icon_image, compound="top")
         self.home_frame_button_3.grid(row=3, column=0, padx=20, pady=10)
         self.home_frame_button_3.place(relx=0.3, rely=0.555, anchor=tkinter.E)
+        # button  4 (Usage Undefined)
         self.home_frame_button_4 = customtkinter.CTkButton(self.home_frame, text="Button 4", image=self.image_icon_image, compound="bottom")
         self.home_frame_button_4.grid(row=4, column=0, padx=20, pady=10)
         self.home_frame_button_4.place(relx=0.3, rely=0.67, anchor=tkinter.E)
@@ -98,16 +101,22 @@ class App(customtkinter.CTk):
 
         # self.textbox.insert("0.0", "CTkTextbox\n\n" + "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua.\n\n" * 20)
             # graphing
+        # Graph Button (opens Matlab.ply and plots current data)
         self.second_frame_graph_button = customtkinter.CTkButton(self.second_frame, text="Graph Current Data",
                                                                  command=self.graph, image=self.image_icon_image,
                                                                  compound="top")
         self.second_frame_graph_button.place(relx=0.3, rely=0.1, anchor=tkinter.E)
-        self.second_frame_display_text_button = customtkinter.CTkButton(self.second_frame, text="Post Current Polling Rate",
+        self.second_frame_display_text_button = customtkinter.CTkButton(self.second_frame, text="Post Rate",
                                                                  command=self.updateBox, image=self.image_icon_image,
                                                                  compound="top")
         self.second_frame_display_text_button.place(relx=0.3, rely=0.225, anchor=tkinter.E)
-        # create third frame
+
+        # create third frame (Configs)
         self.third_frame = customtkinter.CTkFrame(self, corner_radius=0, fg_color="transparent")
+        self.third_frame_update_config_button = customtkinter.CTkButton(self.third_frame, text="Apply Current Settings",
+                                                                 command=self.configUpdate, image=self.image_icon_image,
+                                                                 compound="top")
+        self.third_frame_update_config_button.place(relx=0.3, rely=0.1, anchor=tkinter.E)
         # select default frame
         self.select_frame_by_name("home")
 
@@ -154,10 +163,31 @@ class App(customtkinter.CTk):
                 plt.plot(point[0], point[1])
             plt.show()
         print("Updates Box")
-
+    # calibration curves that takes the current across the 2 pairs of the voltmeters.  Read the application of the Howling Current. I = V/R
     def updateBox(self):
         self.textbox.insert("0.0", text=str(time.time()-start) + " ")
         print("Updates Box")
+
+    def meanAvgVoltage(self):
+        # taking from the 4 voltage readings measure the voltage across the pair.
+        return 0
+    def setVoltage(self, appliedEqualsExperimental): # mode is an true or false, true represents that the voltage applied to the circuits will match
+        # the value that is supposed to be applied and reduce the small errors that occur (slower than keeping it false)
+        if appliedEqualsExperimental == False:
+            return
+        else:
+            return
+        return 0
+    def voltageCorrection(self): # helper function for voltage. returns the voiltage after a correction
+        return 0
+    def configUpdate(self): # checks all the accessable variables on the current screen and updates them if the tab is then changed
+        if (name == "home"): # on home it is used to check warning settings and if the device is plugged in
+            return 0
+        if (name == "frame_2"):
+            return 0
+        if (name == "frame_3"):
+            return 0
+
 if __name__ == "__main__":
     app = App()
     app.mainloop()
